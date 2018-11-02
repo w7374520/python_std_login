@@ -125,13 +125,11 @@ def register(request):
 def logout(request):
     #pass
     if not request.session.get('is_login', None):
-        print('>>>>>>>>>>>>')
         return redirect("/index/")
     request.session.flush()
     # del request.session['is_login']
     # del request.session['user_id']
     # del request.session['user_name']
-    print('------->')
     return redirect('/index/')
 
 def user_confirm(request):
