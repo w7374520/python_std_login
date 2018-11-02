@@ -1,0 +1,44 @@
+from django.shortcuts import render
+#from login.models import User
+from . import models
+
+# Create your views here.
+
+#顶部导入redirect用于logout后页面，重定向'index'页面
+from django.shortcuts import redirect
+
+def index(request):
+    pass
+    return render(request, 'login/index.html')
+
+def login(request):
+    if request.method == "POST":
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
+        message = "所有字段都必须填写！"
+        print(username, password)
+        if username and password :
+            username = username.strip()
+
+            try:
+
+                #user = User.objects.get(name=username)
+                user = models.User.objects.get(name=username)
+                if user.password == password:
+                    return redirect('/index/')
+                else:
+                    message = "密码不正确!"
+            except Exception as E:
+                print(E)
+                message = "用户名不存在"
+
+        return render(request, 'login/login.html', {"message": message})
+    return render(request, 'login/login.html')
+
+def register(request):
+    pass
+    return render(request, 'login/register.html')
+
+def logout(request):
+    pass
+    return redirect('/index/')
